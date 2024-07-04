@@ -22,14 +22,18 @@ const Cart = () => {
     }, [cartQuantity.cartQty, pizzaId.pizzaAdded, pizzaData]);
 
     const deleteCartQuantity = (pizzaId) => {
-        console.log(pizzaId)
+        console.log('cartData: ', cartData, 'pizzaData:', pizzaId.pizzaAdded )
+        const updatedValue = cartData.filter((eachPizza) => eachPizza.id !== pizzaId)
+        console.log(updatedValue);
+        setCartData(updatedValue);
+        console.log('updatedcartData: ', cartData)
+        cartQuantity.setCartQty((prevState) => prevState - 1)
     };
 
     return (
         <>
             <button onClick={() => navigate('/')}>Back to homepage</button>
             <Header cartQty={cartQuantity.cartQty} />
-            {console.log(cartQuantity.cartQty, cartData)}
             <ul className='pizza-wrapper'>
             {(cartQuantity.cartQty > 0) && cartData.map((eachPizza) => (
                 <li key={eachPizza.id}>
@@ -38,11 +42,11 @@ const Cart = () => {
                     <div className='pizza-price'>{eachPizza.price}</div>
                     <div className='pizza-rank'>{eachPizza.rank}</div>
                     <div className='topping'>
-                        {eachPizza?.topping && eachPizza?.topping.map((eachTopping) => {
-                            (<span>{eachTopping}</span>);
-                        })}
+                        {eachPizza?.topping && eachPizza?.topping.map((eachTopping) => 
+                            (<span>{eachTopping}</span>)
+                        )}
                     </div>
-                    <button className='addCart' onClick={() => deleteCartQuantity(eachPizza.id)}>Delete</button>
+                    <button className='deleteCart' onClick={() => deleteCartQuantity(eachPizza.id)}>Delete</button>
                 </div>
                 </li>
             ))}
